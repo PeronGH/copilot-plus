@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copilot Plus
 // @namespace    https://copilot.microsoft.com/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Unlock your Copilot experience.
 // @author       PeronGH
 // @match        https://copilot.microsoft.com/
+// @match        https://copilot.microsoft.com/?*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=microsoft.com
 // @grant        none
 // @updateURL    https://github.com/PeronGH/copilot-plus/raw/main/copilot-plus.user.js
