@@ -2,6 +2,8 @@
 
 Unlock your Copilot experience.
 
+[Install](https://github.com/PeronGH/copilot-plus/raw/main/copilot-plus.user.js)
+
 ## Features
 
 - Unlock GPT-4 Turbo for free users
