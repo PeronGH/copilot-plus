@@ -11,7 +11,7 @@
 // @downloadURL  https://github.com/PeronGH/copilot-plus/raw/main/copilot-plus.user.js
 // ==/UserScript==
 
-(async () => {
+(() => {
   "use strict";
 
   const CIB = window.CIB;
@@ -59,22 +59,6 @@
     inPlaceFilter(config.sydney.request.optionsSets, filter);
   }
 
-  // System Events
-
-  function onSystemEvent(handler) {
-    let systemEventHandlerQueued = false;
-    CIB.eventBus.onSystemEvent((e) => {
-      console.debug("SystemEvent", e);
-      if (!systemEventHandlerQueued) {
-        systemEventHandlerQueued = true;
-        queueMicrotask(() => {
-          systemEventHandlerQueued = false;
-          handler(e);
-        });
-      }
-    });
-  }
-
   // Main
 
   // Disable jailbreak filter
@@ -95,7 +79,7 @@
 
   // Intercept message submission
   const submitMessage = manager.chat.submitMessage;
-  manager.chat.submitMessage = async (...args) => {
+  manager.chat.submitMessage = (...args) => {
     console.info("submitMessage", args);
 
     let jailbreakMessage;
