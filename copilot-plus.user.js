@@ -49,18 +49,18 @@
       console.info("System Event", e);
       if (!systemEventHandlerQueued) {
         systemEventHandlerQueued = true;
-        queueMicrotask(async () => {
+        queueMicrotask(() => {
           systemEventHandlerQueued = false;
-          await handler(e);
+          handler(e);
         });
       }
     });
   }
 
   // Main
+  addOptions("gpt4tmncnp");
 
   onSystemEvent(({ type, data }) => {
-    addOptions("gpt4tmncnp");
     CIB.config.sydney.request.sliceIds.length = 0;
     console.info(CIB.config.sydney.request);
   });
