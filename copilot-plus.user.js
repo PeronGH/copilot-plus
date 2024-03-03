@@ -13,6 +13,7 @@
   "use strict";
 
   const CIB = window.CIB;
+  const model = CIB.vm.model;
 
   // Helpers
 
@@ -46,7 +47,7 @@
   function onSystemEvent(handler) {
     let systemEventHandlerQueued = false;
     CIB.eventBus.onSystemEvent((e) => {
-      console.info("System Event", e);
+      console.debug("SystemEvent", e);
       if (!systemEventHandlerQueued) {
         systemEventHandlerQueued = true;
         queueMicrotask(() => {
@@ -59,9 +60,10 @@
 
   // Main
   addOptions("gpt4tmncnp");
+  CIB.config.sydney.request.sliceIds.length = 0;
+  CIB.config.features.enableMaxTurnsPerConversation = false;
 
   onSystemEvent(({ type, data }) => {
-    CIB.config.sydney.request.sliceIds.length = 0;
     console.info(CIB.config.sydney.request);
   });
 })();
