@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copilot Plus
 // @namespace    https://copilot.microsoft.com/
-// @version      1.0.2
+// @version      1.1.0
 // @description  Unlock your Copilot experience.
 // @author       PeronGH
 // @match        https://copilot.microsoft.com/
@@ -85,9 +85,10 @@
   config.features.enableUpdateConversationMessages = true;
 
   // Intercept message submission
-  const submitMessage = manager.chat.submitMessage;
+  const submitMessage = manager.chat.submitMessage.bind(manager.chat);
   manager.chat.submitMessage = (...args) => {
-    console.debug("submitMessage", args);
+    const message = args[0];
+    console.debug("submitMessage", message);
 
     let jailbreakMessage;
 
@@ -101,7 +102,7 @@
       jailbreakMessage = JAILBREAK_MESSAGE;
     }
 
-    if (model.messages.length <= 1) {
+    if (manager.conversation.hasOneUserMessage) {
       // Add jailbreak message
       CIB.registerContext([{
         author: "user",
@@ -114,6 +115,23 @@
     }
 
     args[0].messageType = "CurrentWebpageContextRequest";
-    return submitMessage.apply(manager.chat, args);
+    return submitMessage(...args);
+  };
+
+  // Intercept message processing
+  const processHookedMessage = manager.processHookedMessage.bind(manager);
+  manager.processHookedMessage = (...args) => {
+    const message = args[0];
+    console.debug("processHookedMessage", message);
+
+    if (
+      message.messageType === "Disengaged" ||
+      message.contentOrigin === "Apology"
+    ) {
+      // Skip disengagement or apologies
+      return;
+    }
+
+    return processHookedMessage(...args);
   };
 })();
