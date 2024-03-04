@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copilot Plus
 // @namespace    https://copilot.microsoft.com/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Unlock your Copilot experience.
 // @author       PeronGH
 // @match        https://copilot.microsoft.com/
@@ -19,6 +19,8 @@
   const config = CIB.config;
   const model = CIB.vm.model;
   const manager = CIB.manager;
+
+  const BM = window.BM;
 
   // constants
 
@@ -62,6 +64,10 @@
 
   // Main
 
+  // Protect privacy
+  manager.telemetry._isPrivacyEnabledForConversation = true;
+  BM.snapshot = () => {};
+
   // Disable jailbreak filter
   addOptions("nojbf");
 
@@ -81,7 +87,7 @@
   // Intercept message submission
   const submitMessage = manager.chat.submitMessage;
   manager.chat.submitMessage = (...args) => {
-    console.info("submitMessage", args);
+    console.debug("submitMessage", args);
 
     let jailbreakMessage;
 
